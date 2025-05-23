@@ -22,7 +22,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"; // shadcn/ui Form component
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -32,7 +32,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Define the Zod schema for client-side validation (should match the API's schema)
 const formSchema = z
   .object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -66,7 +65,6 @@ export default function SignUpPage() {
       email: "",
       password: "",
       confirmPassword: "",
-      // role: undefined, // Let the Select component handle placeholder
     },
   });
 
@@ -86,8 +84,6 @@ export default function SignUpPage() {
 
       if (!response.ok) {
         if (result.errors) {
-          // Zod validation errors from API
-          // You could map these to form errors if desired, for now just a general message
           const errorMessages = Object.values(result.errors).flat().join(", ");
           setServerError(`Registration failed: ${errorMessages}`);
         } else {
@@ -96,9 +92,6 @@ export default function SignUpPage() {
           );
         }
       } else {
-        // Registration successful
-        // console.log('Registration successful:', result.user);
-        // Redirect to login page or a "please verify email" page
         router.push("/login?message=Registration successful! Please log in.");
       }
     } catch (error) {
