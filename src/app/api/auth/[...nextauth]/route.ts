@@ -1,30 +1,32 @@
 import prisma from "@/lib/prisma";
-// import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import NextAuth, { AuthOptions, User as NextAuthUser } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { Role } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text" },
+        email: { label: "email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<NextAuthUser | null> {
-        if (!credentials?.username || !credentials?.password) {
+        if (!credentials?.email || !credentials?.password) {
           console.error("Missing credentials");
           return null;
         }
 
-        const { username, password } = credentials;
+        const { email, password } = credentials;
 
         try {
           const user = await prisma.user.findUnique({
             where: {
-              username,
+              email,
             },
           });
 
@@ -34,16 +36,17 @@ export const authOptions: AuthOptions = {
           }
 
           const isPasswordValid = await bcrypt.compare(password, user.password);
+
           if (!isPasswordValid) {
-            return {
-              id: user.id,
-              username: user.username,
-              email: user.email || null,
-            } as NextAuthUser & { username: string };
-          } else {
-            console.error("Invalid password");
             return null;
           }
+
+          return {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            role: user.role,
+          };
         } catch (error) {
           console.error("Error during authorization", error);
           return null;
@@ -55,18 +58,19 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        const customUser = user as User & { username: string | null };
-        token.username = customUser.username || null;
+        token.username = user.username as string;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
-        session.user.username = token.username as string | null;
+        session.user.username = token.username as string;
+        session.user.role = token.role as Role;
       }
       return session;
     },

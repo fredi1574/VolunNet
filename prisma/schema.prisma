@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  // output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -15,12 +15,92 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String?
-  username  String?  @unique
-  email     String   @unique
-  password  String
-  image     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String         @id @default(cuid())
+  firstName           String?
+  lastName            String?
+  username            String?        @unique
+  email               String         @unique
+  emailVerified       DateTime?
+  password            String?
+  phoneNumber         String?        @unique
+  accounts            Account[]
+  sessions            Session[]
+  image               String?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  role                Role           @default(VOLUNTEER)
+  registrations       Registration[]
+  postedOpportunities Opportunity[]  @relation("PostedOpportunities")
+}
+
+model Opportunity {
+  id            String         @id @default(cuid())
+  title         String
+  description   String?
+  date          DateTime
+  locationName  String
+  address       String?
+  latitude      Float
+  longitude     Float
+  organizerId   String
+  organizer     User           @relation("PostedOpportunities", fields: [organizerId], references: [id], onDelete: Cascade)
+  registrations Registration[]
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Registration {
+  id            String      @id @default(cuid())
+  userId        String
+  opportunityId String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  status        Status      @default(APPLIED)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([userId, opportunityId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+  type              String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  VOLUNTEER
+  ORGANIZER
+  ADMIN
+}
+
+enum Status {
+  APPLIED
+  APPROVED
+  REJECTED
+  CANCELED_BY_USER
+  COMPLETED
 }
