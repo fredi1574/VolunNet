@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -10,8 +11,11 @@ export default function LandingPage() {
           <div className="flex justify-between px-4">
             <h1 className="text-xl font-bold">VolunNet</h1>
             <div className="space-x-4">
-              <Button variant="link" className="cursor-pointer">
-                Find Opportunities
+              <Button variant="link" className="cursor-pointer" asChild>
+                <Link href="/login">Log in</Link>
+              </Button>
+              <Button variant="link" className="cursor-pointer" asChild>
+                <Link href="/register">Register</Link>
               </Button>
               <Button variant="link" className="cursor-pointer">
                 About
