@@ -11,7 +11,7 @@ interface MainLayoutProps {
 export default function MainLayout({ children }: MainLayoutProps) {
   const pathname = usePathname();
 
-  const noSidebarRoutes = ["/login", "/register"];
+  const noSidebarRoutes = ["/login", "/register", "/landingpage"];
   const shouldShowSidebar = !noSidebarRoutes.includes(pathname);
 
   return (
