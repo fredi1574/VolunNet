@@ -21,7 +21,7 @@ export default function RegisterPage() {
       action={registerUser}
       className="w-1/4 space-y-4 rounded-md border border-gray-300 bg-white p-4 px-10 shadow-lg"
     >
-      <h3 className="text-lg font-semibold">Create an account</h3>
+      <h3 className="text-xl font-semibold">Create Your VolunNet account</h3>
       <div className="flex flex-col space-y-2">
         <label htmlFor="email">Email</label>
         <Input
@@ -31,9 +31,19 @@ export default function RegisterPage() {
           placeholder="Enter email..."
           required
         />
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="password">Password</label>
+          <Input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter password..."
+            required
+          />
+        </div>
       </div>
       <div className="flex flex-col space-y-2">
-        <label htmlFor="email">Username</label>
+        <label htmlFor="username">Username</label>
         <Input
           type="text"
           id="username"
@@ -42,13 +52,39 @@ export default function RegisterPage() {
           required
         />
       </div>
+
+      <Separator className="my-8" />
+      <h2 className="text-muted-foreground text-center">
+        Personal information
+      </h2>
+
       <div className="flex flex-col space-y-2">
-        <label htmlFor="password">Password</label>
+        <label htmlFor="firstName">First name</label>
         <Input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Enter password..."
+          type="text"
+          id="firstName"
+          name="firstName"
+          placeholder="Enter your first name"
+          required
+        />
+      </div>
+      <div className="flex flex-col space-y-2">
+        <label htmlFor="lastName">Last name</label>
+        <Input
+          type="text"
+          id="lastName"
+          name="lastName"
+          placeholder="Enter your last name"
+          required
+        />
+      </div>
+      <div className="flex flex-col space-y-2">
+        <label htmlFor="phoneNumber">Phone number</label>
+        <Input
+          type="phone"
+          id="phone"
+          name="phone"
+          placeholder="Enter your phone number"
           required
         />
       </div>
