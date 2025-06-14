@@ -16,7 +16,7 @@ export async function registerUser(formData: FormData): Promise<void> {
 
   try {
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { email: email.toLowerCase() },
     });
 
     if (existingUser) {
@@ -27,7 +27,7 @@ export async function registerUser(formData: FormData): Promise<void> {
 
     await prisma.user.create({
       data: {
-        email,
+        email: email.toLowerCase(),
         username,
         password: hashedPassword,
       },
