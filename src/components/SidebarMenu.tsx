@@ -2,8 +2,8 @@ import {
   Calendar,
   CircleUserRound,
   Home,
-  Inbox,
   LogOut,
+  MessageCircle,
   Search,
   Settings,
 } from "lucide-react";
@@ -29,9 +29,9 @@ const items = [
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "inbox",
-    icon: Inbox,
+    title: "Messages",
+    url: "messages",
+    icon: MessageCircle,
   },
   {
     title: "Calendar",
@@ -42,11 +42,6 @@ const items = [
     title: "Search",
     url: "#",
     icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
   },
 ];
 
@@ -99,7 +94,7 @@ export function AppSidebar() {
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
-                    onClick={() => signOut({ callbackUrl: "/login" })}
+                    onClick={() => signOut({ callbackUrl: "/" })}
                     className="w-full cursor-pointer justify-start"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
