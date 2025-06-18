@@ -28,12 +28,12 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
       <CardHeader className="flex flex-row items-center space-x-4">
         <Avatar className="h-30 w-30">
           <AvatarImage
-            src={userProfile.image}
-            alt={userProfile.firstName || userProfile.username}
+            src={userProfile?.image}
+            alt={userProfile?.firstName || userProfile?.username}
           />
           <AvatarFallback>
-            {userProfile.firstName?.charAt(0) ||
-              userProfile.username?.charAt(0)}
+            {userProfile?.firstName?.charAt(0) ||
+              userProfile?.username?.charAt(0)}
           </AvatarFallback>
         </Avatar>
         <div>
@@ -41,11 +41,11 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
             {userProfile?.firstName + " " + userProfile?.lastName ||
               userProfile.username}
           </CardTitle>
-          {userProfile.username && (
+          {userProfile?.username && (
             <p className="text-muted-foreground">@{userProfile.username}</p>
           )}
           <p className="text-muted-foreground text-sm">
-            Role: {userProfile.role}
+            Role: {userProfile?.role}
           </p>
         </div>
       </CardHeader>
@@ -56,12 +56,12 @@ export default async function UserProfilePage({ params }: ProfilePageProps) {
         </p>
 
         <p>
-          <strong>Phone:</strong> {userProfile.phoneNumber}
+          <strong>Phone:</strong> {userProfile?.phoneNumber}
         </p>
 
         <p>
           <strong>Joined:</strong>{" "}
-          {new Date(userProfile.createdAt).toLocaleDateString()}
+          {new Date(userProfile?.createdAt).toLocaleDateString()}
         </p>
         {isOwnProfile && (
           <Button asChild variant="outline" className="">

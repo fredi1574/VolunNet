@@ -1,14 +1,13 @@
-"use client";
-
 import LandingPage from "@/components/LandingPage";
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
-export default function Home() {
-  const { data: session } = useSession();
+function DashBoard() {
+  return <div className="text-5xl">Dashboard Content</div>;
+}
 
-  if (!session?.user) {
-    return <LandingPage />;
-  }
+export default async function Home() {
+  const session = await getServerSession(authOptions);
 
-  return <div className="text-9xl">Homepage</div>;
+  return session?.user ? <DashBoard /> : <LandingPage />;
 }

@@ -1,3 +1,4 @@
+"use client";
 import {
   Calendar,
   CircleUserRound,
@@ -5,7 +6,6 @@ import {
   LogOut,
   MessageCircle,
   Search,
-  Settings,
 } from "lucide-react";
 
 import {
