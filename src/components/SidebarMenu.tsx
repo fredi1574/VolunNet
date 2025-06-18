@@ -64,7 +64,7 @@ export function AppSidebar() {
                 <SidebarMenuItem
                   key={item.title}
                   className={
-                    isActive(item.url) ? "rounded-lg bg-slate-300" : ""
+                    isActive(item.url) ? "rounded-lg bg-slate-200" : ""
                   }
                 >
                   <SidebarMenuButton asChild>
